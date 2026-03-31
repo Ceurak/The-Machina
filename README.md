@@ -4,7 +4,7 @@ Sprawdza:
 - IP
 - MAC
 - HOSTNAME
-- OPPENED PORTS
+- OPENED PORTS
 
 ## Co potrzebne (pakiety):
 Pakiety: sudo apt install nmap arp-scan python3 python3-pip python3-full python3-venv
