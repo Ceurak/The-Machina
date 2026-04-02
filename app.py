@@ -30,8 +30,9 @@ for line in line_arp:
 for ip, mac in devices:
     print(f"IP: {ip} | MAC: {mac}")
 
+range = input("Podaj zakres IP do skanu: ")
 results_nmap = subprocess.run(
-    ["nmap", "192.168.0.50"],
+    ["nmap", range],
     capture_output=True,
     text=True
 )
