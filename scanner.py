@@ -1,12 +1,28 @@
 import subprocess
 import re
 
-# Regex'y potrzebne
+# Regex'y potrzebne, pod ip i pod mac
 regex_ip = re.compile(r'\b(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\b')
 regex_mac = re.compile(r'\b(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}\b')
 
+
+# Zebranie domyślnego IP:
+"""
+results_def_ip = subprocess.run(
+    ["ip", "-br", "a", "|", "grep", "-v", "'^lo'"],
+    capture_output=True,
+    text=True
+)
+ini_ip = []
+line_ip = results_def_ip.stdout.splitlines()
+
+for line in line_ip:
+    ini_ip.append
+"""
+
+
 # Zakres działania
-range = input("Podaj zakres IP do skanu: ")
+range = input("Podaj zakres IP do skanu:", )
 
 # Arp-scan - pobranie IP i MAC hostów
 results_arp = subprocess.run(
