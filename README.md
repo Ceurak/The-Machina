@@ -13,7 +13,7 @@ W (venv) potrzebne: python -m pip install rich textual
 
 Edytor tesktu micro
 
-WAŻNE - arp-scan potrzebuje uprawnień sudo. TUI nie pozwala - trza przed w "sudo visudo" na końcu pliku dodać twoj_user ALL=(ALL) NOPASSWD: <ścieżka do pliku wykonawczego (można znaleźć za pomocą "which")>
+WAŻNE - arp-scan potrzebuje uprawnień sudo. TUI nie pozwala - trza przed w "sudo visudo" na końcu pliku w 2 miejscach dodać twoj_user ALL=(ALL) NOPASSWD: <ścieżka do pliku wykonawczego (można znaleźć za pomocą "which")> Jeden za wierszem o root, drugi za wierszem z %wheel.
 
 ## Co potrzebne (apka):
 Kod d:
