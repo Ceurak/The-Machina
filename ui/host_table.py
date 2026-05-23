@@ -1,7 +1,7 @@
 from textual.widgets import DataTable
 from models.host import Host
 
-
+# Wypisanie danych o hoście na lewym oknie
 class HostTable(DataTable):
     def on_mount(self) -> None:
         self.cursor_type = "row"

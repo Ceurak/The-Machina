@@ -1,7 +1,7 @@
 from textual.widgets import Static
 from models.host import Host
 
-
+# Wypisanie info o hoście na prawym oknie. 
 class HostDetailsView(Static):
     def show_host(self, host: Host) -> None:
         lines = [

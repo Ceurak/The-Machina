@@ -7,6 +7,7 @@ from scanner.host_details import scan_host_ports
 from ui.host_details_view import HostDetailsView
 from ui.host_table import HostTable
 from utils.command import CommandError
+from utils.export import export_hosts_to_csv
 
 
 class ScanApp(App):
@@ -21,23 +22,28 @@ class ScanApp(App):
     def compose(self) -> ComposeResult:
         yield Header()
 
+# Przyciski i pole do wpisania.
         with Vertical():
             with Horizontal(id="top_bar"):
                 yield Input(placeholder="Podaj zakres, np. 192.168.0.0/24", id="range_input")
                 yield Button("Szukaj hostów", id="discover_button")
                 yield Button("Skanuj porty", id="ports_button")
+                yield Button("Export do csv", id="export_button")
 
+# Dolne dwa pola.
             with Horizontal(id="main_content"):
                 yield HostTable(id="host_table")
                 yield HostDetailsView("Wybierz host z listy", id="details_view")
 
         yield Footer()
 
+# Co się dzieje gdy dany przycisk zostanie wciśnięty.
     def on_button_pressed(self, event: Button.Pressed) -> None:
         range_input = self.query_one("#range_input", Input)
         host_table = self.query_one("#host_table", HostTable)
         details_view = self.query_one("#details_view", HostDetailsView)
 
+# Przycisk do szukania hostów
         if event.button.id == "discover_button":
             ip_range = range_input.value.strip()
             if not ip_range:
@@ -58,7 +64,7 @@ class ScanApp(App):
             else:
                 details_view.update("Nie wykryto hostów w podanym zakresie")
                 self.notify("Nie wykryto hostów.", severity="warning")
-
+# Przycisk pod wyszukanie portów
         elif event.button.id == "ports_button":
             if not self.hosts:
                 self.notify("Najpierw wyszukaj hosty.", severity="warning")
@@ -80,6 +86,19 @@ class ScanApp(App):
             details_view.show_host(host)
             self.notify(f"Zeskanowano porty hosta {host.ip}")
 
+        elif event.button.id == "export_button":
+            if not self.hosts:
+                self.notify("Nie ma hostów do eksportu.", severity="warning")
+                return
+
+            try:
+                export_hosts_to_csv(self.hosts, "hosts.csv")
+            except Exception as error:
+                self.notify(str(error), title="Błąd eksportu CSV", severity="error")
+                return
+            self.notify("Wyeksportowano hosty do pliku hosts.csv")
+
+# Pokazanie w prawym polu dane o zaznaczonym hoście
     def on_data_table_row_highlighted(self, event: DataTable.RowHighlighted) -> None:
         if event.data_table.id != "host_table":
             return
